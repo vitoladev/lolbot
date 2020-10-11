@@ -30,7 +30,7 @@ export class GeradorDeManchetes {
     }
 
     const ligas = manchete.match(/LIGA/g);
-    // se tiver liga na manchete gerada substitui a váriavel $LIGA usada no JSON pela pessoa gerada.
+    // se tiver liga na manchete gerada substitui a váriavel $LIGA usada no JSON pela liga gerada.
     if (ligas !== null) {
       for (let i = 0; i < ligas.length; i++) {
         manchete = manchete.replace('$LIGA', `${this.liga.geraLiga()}`);
@@ -38,7 +38,7 @@ export class GeradorDeManchetes {
     }
 
     const times = manchete.match(/TIME/g);
-    // se tiver time na manchete gerada substitui a váriavel $TIME usada no JSON pela pessoa gerada.
+    // se tiver time na manchete gerada substitui a váriavel $TIME usada no JSON pelo time gerado.
     if (times !== null) {
       for (let i = 0; i < times.length; i++) {
         manchete = manchete.replace('$TIME', `${this.time.geraTime()}`);
