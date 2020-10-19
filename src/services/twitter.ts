@@ -13,7 +13,11 @@ const client = new Twitter({
   access_token_secret: process.env.access_token_secret as string,
 });
 
+<<<<<<< HEAD
 async function tweetar(): Promise<void> {
+=======
+export async function tweetar(): Promise<void> {
+>>>>>>> a9964c2fead3e27f96b3eeb3936960650fbb8f93
   try {
     // Pega uma nova manchete aleatória
     const gerador = new GeradorDeManchetes();

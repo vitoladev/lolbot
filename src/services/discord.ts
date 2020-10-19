@@ -138,6 +138,10 @@ export function DiscordBot(): void {
           `${qtdTimes} times \n` +
           `${qtdLigas} ligas \n` +
           `${qtdPessoas} pessoas`;
+<<<<<<< HEAD
+=======
+        console.log(mensagem);
+>>>>>>> a9964c2fead3e27f96b3eeb3936960650fbb8f93
         message.channel.send(mensagem);
       }
     } catch (e) {
