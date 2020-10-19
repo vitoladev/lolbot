@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import Discord, { Message } from 'discord.js';
 import { GeradorDeManchetes } from '../classes/geradorDeManchetes';
 import fs from 'fs';
@@ -33,7 +36,7 @@ export function DiscordBot(): void {
 
       if (command === 'help') {
         message.channel.send(
-          `pra adicionar uma manchete pro bot usa esse padrão: \npessoa = $PESSOA, time = $TIME e liga = $LIGA.\n exemplo: "+novamanchete $PESSOA, da $TIME, admite que não esperava vencer a $TIME"`,
+          `pra adicionar uma manchete pro bot usa esse padrão: \npessoa = $PESSOA, time = $TIME, liga = $LIGA\n e campeão = $CAMPEAO;\n exemplo: "+novamanchete $PESSOA, da $TIME, admite que não esperava vencer a $TIME"`,
         );
       }
       if (command === 'generate') {
@@ -56,10 +59,14 @@ export function DiscordBot(): void {
         manchetes[indice] = novaManchete;
 
         manchetesJson = JSON.stringify(manchetes, null, 2);
-        fs.appendFileSync('./config/manchetes.json', manchetesJson, {
-          encoding: 'utf-8',
-          flag: 'w',
-        });
+        fs.appendFileSync(
+          resolve('.', 'config', 'manchetes.json'),
+          manchetesJson,
+          {
+            encoding: 'utf-8',
+            flag: 'w',
+          },
+        );
         message.channel.send('Manchete adicionada com sucesso ao bot!');
       }
       if (command === 'novotime') {
@@ -75,7 +82,7 @@ export function DiscordBot(): void {
         times[indice] = novoTime;
 
         timesJson = JSON.stringify(times, null, 2);
-        fs.appendFileSync('./config/times.json', timesJson, {
+        fs.appendFileSync(resolve('.', 'config', 'times.json'), timesJson, {
           encoding: 'utf-8',
           flag: 'w',
         });
@@ -84,7 +91,7 @@ export function DiscordBot(): void {
       }
       if (command === 'novapessoa') {
         // Adiciona uma nova pessoa ao bot
-        const pessoaAdiocinada = message.content.slice(11).trim();
+        const pessoaAdicionada = message.content.slice(11).trim();
 
         let pessoaJson = fs.readFileSync(
           resolve('.', 'config', 'pessoas.json'),
@@ -93,15 +100,15 @@ export function DiscordBot(): void {
         const pessoa = JSON.parse(pessoaJson);
         const indice = Object.keys(pessoa).length;
 
-        pessoa[indice] = pessoaAdiocinada;
+        pessoa[indice] = pessoaAdicionada;
 
         pessoaJson = JSON.stringify(pessoa, null, 2);
-        fs.appendFileSync('./config/pessoas.json', pessoaJson, {
+        fs.appendFileSync(resolve('.', 'config', 'pessoas.json'), pessoaJson, {
           encoding: 'utf-8',
           flag: 'w',
         });
         message.channel.send(
-          `${pessoaAdiocinada} adicionado com sucesso ao bot!`,
+          `${pessoaAdicionada} adicionado com sucesso ao bot!`,
         );
       }
 
@@ -138,10 +145,7 @@ export function DiscordBot(): void {
           `${qtdTimes} times \n` +
           `${qtdLigas} ligas \n` +
           `${qtdPessoas} pessoas`;
-<<<<<<< HEAD
-=======
         console.log(mensagem);
->>>>>>> a9964c2fead3e27f96b3eeb3936960650fbb8f93
         message.channel.send(mensagem);
       }
     } catch (e) {

@@ -4,6 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DiscordBot = void 0;
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const discord_js_1 = __importDefault(require("discord.js"));
 const geradorDeManchetes_1 = require("../classes/geradorDeManchetes");
 const fs_1 = __importDefault(require("fs"));
@@ -30,7 +32,7 @@ function DiscordBot() {
             const args = message.content.slice('+'.length).trim().split(/ +/g);
             const command = (_a = args.shift()) === null || _a === void 0 ? void 0 : _a.toLowerCase();
             if (command === 'help') {
-                message.channel.send(`pra adicionar uma manchete pro bot usa esse padrão: \npessoa = $PESSOA, time = $TIME e liga = $LIGA.\n exemplo: "+novamanchete $PESSOA, da $TIME, admite que não esperava vencer a $TIME"`);
+                message.channel.send(`pra adicionar uma manchete pro bot usa esse padrão: \npessoa = $PESSOA, time = $TIME, liga = $LIGA\n e campeão = $CAMPEAO;\n exemplo: "+novamanchete $PESSOA, da $TIME, admite que não esperava vencer a $TIME"`);
             }
             if (command === 'generate') {
                 // Gera uma nova manchete
@@ -46,7 +48,7 @@ function DiscordBot() {
                 const indice = Object.keys(manchetes).length;
                 manchetes[indice] = novaManchete;
                 manchetesJson = JSON.stringify(manchetes, null, 2);
-                fs_1.default.appendFileSync('./config/manchetes.json', manchetesJson, {
+                fs_1.default.appendFileSync(path_1.resolve('.', 'config', 'manchetes.json'), manchetesJson, {
                     encoding: 'utf-8',
                     flag: 'w',
                 });
@@ -60,7 +62,7 @@ function DiscordBot() {
                 const indice = Object.keys(times).length;
                 times[indice] = novoTime;
                 timesJson = JSON.stringify(times, null, 2);
-                fs_1.default.appendFileSync('./config/times.json', timesJson, {
+                fs_1.default.appendFileSync(path_1.resolve('.', 'config', 'times.json'), timesJson, {
                     encoding: 'utf-8',
                     flag: 'w',
                 });
@@ -68,17 +70,17 @@ function DiscordBot() {
             }
             if (command === 'novapessoa') {
                 // Adiciona uma nova pessoa ao bot
-                const pessoaAdiocinada = message.content.slice(11).trim();
+                const pessoaAdicionada = message.content.slice(11).trim();
                 let pessoaJson = fs_1.default.readFileSync(path_1.resolve('.', 'config', 'pessoas.json'), 'utf8');
                 const pessoa = JSON.parse(pessoaJson);
                 const indice = Object.keys(pessoa).length;
-                pessoa[indice] = pessoaAdiocinada;
+                pessoa[indice] = pessoaAdicionada;
                 pessoaJson = JSON.stringify(pessoa, null, 2);
-                fs_1.default.appendFileSync('./config/pessoas.json', pessoaJson, {
+                fs_1.default.appendFileSync(path_1.resolve('.', 'config', 'pessoas.json'), pessoaJson, {
                     encoding: 'utf-8',
                     flag: 'w',
                 });
-                message.channel.send(`${pessoaAdiocinada} adicionado com sucesso ao bot!`);
+                message.channel.send(`${pessoaAdicionada} adicionado com sucesso ao bot!`);
             }
             if (command === 'info') {
                 // Mostra o total de quantas pessoas, times, ligas e manchetes o bot tem

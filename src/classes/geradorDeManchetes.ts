@@ -4,6 +4,8 @@ import { Gerador } from './gerador';
 import { GeradorDeLiga } from './geradorDeLiga';
 import { GeradorDePessoa } from './geradorDePessoa';
 import { GeradorDeTime } from './geradorDeTime';
+import { GeradorDeCampeao } from './geradorDeCampeao';
+
 type Manchete = { [key: string]: string };
 
 export class GeradorDeManchetes {
@@ -11,7 +13,7 @@ export class GeradorDeManchetes {
   private readonly time = new GeradorDeTime();
   private readonly pessoa = new GeradorDePessoa();
   private readonly liga = new GeradorDeLiga();
-
+  private readonly campeao = new GeradorDeCampeao();
   geraManchete(): string {
     const manchetesjson = fs.readFileSync(
       resolve('.', 'config', 'manchetes.json'),
@@ -45,6 +47,16 @@ export class GeradorDeManchetes {
       }
     }
 
+    const campeoes = manchete.match(/CAMPEAO/g);
+
+    if (campeoes !== null) {
+      for (let i = 0; i < campeoes.length; i++) {
+        manchete = manchete.replace(
+          '$CAMPEAO',
+          `${this.campeao.geraCampeao()}`,
+        );
+      }
+    }
     return manchete;
   }
 }

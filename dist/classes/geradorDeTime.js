@@ -8,7 +8,7 @@ const path_1 = require("path");
 const fs_1 = __importDefault(require("fs"));
 const gerador_1 = require("./gerador");
 class GeradorDeTime {
-    // Le o JSON que tem todos os times e retorna uma pessoa aleatória
+    // Le o JSON que tem todos os times e retorna um time aleatório
     geraTime() {
         const timesjson = fs_1.default.readFileSync(path_1.resolve('.', 'config', 'times.json'), 'utf8');
         const times = JSON.parse(timesjson);

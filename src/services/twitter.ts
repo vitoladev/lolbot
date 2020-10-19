@@ -4,6 +4,7 @@ import Twitter from 'twitter';
 import { GeradorDeManchetes } from '../classes/geradorDeManchetes';
 
 import fs from 'fs';
+import { resolve } from 'path';
 
 // Credenciais da API do Twitter
 const client = new Twitter({
@@ -13,11 +14,7 @@ const client = new Twitter({
   access_token_secret: process.env.access_token_secret as string,
 });
 
-<<<<<<< HEAD
 async function tweetar(): Promise<void> {
-=======
-export async function tweetar(): Promise<void> {
->>>>>>> a9964c2fead3e27f96b3eeb3936960650fbb8f93
   try {
     // Pega uma nova manchete aleatória
     const gerador = new GeradorDeManchetes();
@@ -32,12 +29,15 @@ export async function tweetar(): Promise<void> {
 
     // Salva a manchete no log.json
     const data = new Date();
-    let logJson = fs.readFileSync('./config/log.json', 'utf8');
+    let logJson = fs.readFileSync(
+      resolve('..', '..', 'config', 'log.json'),
+      'utf8',
+    );
     const log = JSON.parse(logJson);
     const novoLog = [data.toLocaleString('pt-br'), novoTweet];
     log.push(novoLog);
     logJson = JSON.stringify(log, null, 2);
-    fs.appendFileSync('./config/log.json', logJson, {
+    fs.appendFileSync(resolve('..', '..', 'config', 'log.json'), logJson, {
       encoding: 'utf-8',
       flag: 'w',
     });
@@ -48,9 +48,9 @@ export async function tweetar(): Promise<void> {
 
 export async function TwitterBot(): Promise<void> {
   await tweetar(); // Tweeta quando inicia o bot
-
+  const horaEmMs = 3600000;
   // Tweeta de uma em uma hora
   setInterval(async (): Promise<void> => {
     await tweetar();
-  }, 3600000);
+  }, horaEmMs);
 }

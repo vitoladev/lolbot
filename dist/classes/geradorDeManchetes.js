@@ -10,12 +10,14 @@ const gerador_1 = require("./gerador");
 const geradorDeLiga_1 = require("./geradorDeLiga");
 const geradorDePessoa_1 = require("./geradorDePessoa");
 const geradorDeTime_1 = require("./geradorDeTime");
+const geradorDeCampeao_1 = require("./geradorDeCampeao");
 class GeradorDeManchetes {
     constructor() {
         // Composição pra delegar a função de gerar times, pessoas e ligas para as outras classes
         this.time = new geradorDeTime_1.GeradorDeTime();
         this.pessoa = new geradorDePessoa_1.GeradorDePessoa();
         this.liga = new geradorDeLiga_1.GeradorDeLiga();
+        this.campeao = new geradorDeCampeao_1.GeradorDeCampeao();
     }
     geraManchete() {
         const manchetesjson = fs_1.default.readFileSync(path_1.resolve('.', 'config', 'manchetes.json'), 'utf8');
@@ -29,17 +31,23 @@ class GeradorDeManchetes {
             }
         }
         const ligas = manchete.match(/LIGA/g);
-        // se tiver liga na manchete gerada substitui a váriavel $LIGA usada no JSON pela pessoa gerada.
+        // se tiver liga na manchete gerada substitui a váriavel $LIGA usada no JSON pela liga gerada.
         if (ligas !== null) {
             for (let i = 0; i < ligas.length; i++) {
                 manchete = manchete.replace('$LIGA', `${this.liga.geraLiga()}`);
             }
         }
         const times = manchete.match(/TIME/g);
-        // se tiver time na manchete gerada substitui a váriavel $TIME usada no JSON pela pessoa gerada.
+        // se tiver time na manchete gerada substitui a váriavel $TIME usada no JSON pelo time gerado.
         if (times !== null) {
             for (let i = 0; i < times.length; i++) {
                 manchete = manchete.replace('$TIME', `${this.time.geraTime()}`);
+            }
+        }
+        const campeoes = manchete.match(/CAMPEAO/g);
+        if (campeoes !== null) {
+            for (let i = 0; i < campeoes.length; i++) {
+                manchete = manchete.replace('$CAMPEAO', `${this.campeao.geraCampeao()}`);
             }
         }
         return manchete;

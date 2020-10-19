@@ -11,11 +11,4 @@ app.listen(3000, () => {
     console.log('Bot rodando na porta 3000');
 });
 discord_1.DiscordBot();
-async function TwitterBot() {
-    await twitter_1.tweetar(); // Tweeta quando inicia o bot
-    // Tweeta de uma em uma hora
-    setInterval(async () => {
-        await twitter_1.tweetar();
-    }, 3600000);
-}
-TwitterBot();
+twitter_1.TwitterBot();
