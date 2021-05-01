@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import generateRandom from 'src/utils/generateRandom';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -25,7 +26,9 @@ export class BaseService<T> {
     await this.repository.delete(id);
   }
 
-  async getRows() {
-    return await this.repository.count();
+  async getRandom() {
+    const rows = await this.repository.count();
+    const randomNumber = generateRandom(rows);
+    return this.getOne(randomNumber);
   }
 }
