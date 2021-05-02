@@ -1,3 +1,4 @@
+import { TwitterModule } from './modules/twitter/twitter.module';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -24,6 +25,7 @@ import { NewsHeadlineModule } from './modules/news-headline/news-headline.module
     NewsHeadlineModule,
     LeagueModule,
     TeamModule,
+    TwitterModule,
   ],
 })
 export class AppModule {}

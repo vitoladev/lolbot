@@ -16,5 +16,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   ],
   controllers: [NewsHeadlineController],
   providers: [NewsHeadlineService],
+  exports: [NewsHeadlineService],
 })
 export class NewsHeadlineModule {}
