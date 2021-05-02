@@ -42,7 +42,7 @@ export class NewsHeadlineService extends BaseService {
     }
 
     if (teams !== null) {
-      for (const _ of leagues) {
+      for (const _ of teams) {
         const randomTeam = await this.teamService.getRandom();
         randomHeadline = randomHeadline.replace('$TIME', randomTeam);
       }
