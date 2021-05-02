@@ -1,8 +1,9 @@
+import { AppBaseEntity } from './base.entity';
 import { BaseService } from './base.service';
 import { Body, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 
-export class BaseController<T> {
-  constructor(private baseService: BaseService<T>) {}
+export abstract class BaseController {
+  constructor(private baseService: BaseService) {}
 
   @Get()
   async getAll() {
@@ -15,12 +16,12 @@ export class BaseController<T> {
   }
 
   @Post()
-  async create(@Body() entity: T) {
+  async create(@Body() entity: AppBaseEntity) {
     return this.baseService.create(entity);
   }
 
   @Patch(':id')
-  async update(@Param('id') id: number, @Body() entity: T) {
+  async update(@Param('id') id: number, @Body() entity: AppBaseEntity) {
     return this.baseService.update(id, entity);
   }
 
